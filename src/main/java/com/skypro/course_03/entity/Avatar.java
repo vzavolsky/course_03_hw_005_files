@@ -11,11 +11,10 @@ public class Avatar {
     private Long id;
 
     private String filePath;
+    private long fileSize;
+    private String mediaType;
 
     @Lob
-    private long fileSize;
-
-    private String mediaType;
     private byte[] data;
 
     @OneToOne
@@ -42,7 +41,7 @@ public class Avatar {
         return fileSize;
     }
 
-    public void setFileSize(Long fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 

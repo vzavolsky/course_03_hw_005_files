@@ -47,7 +47,10 @@ public class AvatarService {
             avatar.setData(data);
             avatar.setFilePath(path.toString());
             avatar.setFileSize(data.length);
+            avatar.setStudent(student);
+            avatar.setMediaType(multipartFile.getContentType());
 
+            avatarRepository.save(avatar);
 
         } catch (IOException e) {
             throw new AvatarProcessingException();
