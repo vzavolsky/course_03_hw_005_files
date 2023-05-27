@@ -20,6 +20,7 @@ public class AvatarController{
 
     @PostMapping()
     public ResponseEntity<String> upload(@RequestParam Long studentId, @RequestParam MultipartFile multipartFile) {
-        return ResponseEntity.ok()
+        avatarService.upload(studentId, multipartFile);
+        return ResponseEntity.ok().build();
     }
 }
