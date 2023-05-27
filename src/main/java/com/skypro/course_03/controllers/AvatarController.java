@@ -1,8 +1,6 @@
 package com.skypro.course_03.controllers;
 
 import com.skypro.course_03.entity.Avatar;
-import com.skypro.course_03.exceptions.AvatarProcessingException;
-import com.skypro.course_03.exceptions.StudentNotFoundException;
 import com.skypro.course_03.services.AvatarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
@@ -10,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.websocket.server.PathParam;
-import java.io.IOException;
 import java.util.Optional;
 
 @RestController
