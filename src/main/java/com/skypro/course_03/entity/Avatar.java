@@ -11,7 +11,10 @@ public class Avatar {
     private Long id;
 
     private String filePath;
-    private Long fileSize;
+
+    @Lob
+    private long fileSize;
+
     private String mediaType;
     private byte[] data;
 

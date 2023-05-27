@@ -1,6 +1,8 @@
 package com.skypro.course_03.services;
 
+import com.skypro.course_03.entity.Avatar;
 import com.skypro.course_03.entity.Student;
+import com.skypro.course_03.exceptions.AvatarProcessingException;
 import com.skypro.course_03.exceptions.StudentNotFoundException;
 import com.skypro.course_03.repositories.AvatarRepository;
 import com.skypro.course_03.repositories.StudentRepository;
@@ -30,17 +32,25 @@ public class AvatarService {
         this.avatarDir = avatarDir;
     }
 
-    public void upload(Long studentId, MultipartFile avatar) {
+    public void upload(Long studentId, MultipartFile multipartFile) {
         try {
             Student student = studentRepository.findById(studentId)
                     .orElseThrow(StudentNotFoundException::new);
             String fileName = String.format("%d.%s",
                     student.getId(),
-                    StringUtils.getFilenameExtension(avatar.getOriginalFilename()));
-            Path path = Paths.get(avatarDir);
-            Files.write(path,avatar.getBytes());
+                    StringUtils.getFilenameExtension(multipartFile.getOriginalFilename()));
+            Path path = Paths.get(avatarDir, fileName);
+            byte[] data = multipartFile.getBytes();
+            Files.write(path, data);
+
+            Avatar avatar = new Avatar();
+            avatar.setData(data);
+            avatar.setFilePath(path.toString());
+            avatar.setFileSize(data.length);
+
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AvatarProcessingException();
         }
 
     }
