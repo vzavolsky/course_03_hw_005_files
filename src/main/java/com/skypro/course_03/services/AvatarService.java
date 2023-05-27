@@ -21,16 +21,17 @@ import java.util.Optional;
 @Transactional
 public class AvatarService {
 
-    @Value("${students.avatar.dir.path}")
     private String avatarDir;
 
     private final AvatarRepository avatarRepository;
     private final StudentService studentService;
 
     public AvatarService(AvatarRepository avatarRepository,
-                         StudentService studentService) {
+                         StudentService studentService,
+                         @Value("${students.avatar.dir.path}") String avatarDir) {
         this.avatarRepository = avatarRepository;
         this.studentService = studentService;
+        this.avatarDir = avatarDir;
     }
 
     public Optional<Avatar> findById(Long id) {

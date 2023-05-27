@@ -1,6 +1,6 @@
 ###
 // Upload avatar.
-POST http://localhost:8080/avatar?studentID=2
+POST http://localhost:8080/avatar?studentId=2
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
