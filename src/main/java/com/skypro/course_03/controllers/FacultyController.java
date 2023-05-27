@@ -17,11 +17,9 @@ import java.util.Optional;
 public class FacultyController {
 
     private FacultyService facultyService;
-    private StudentService studentService;
 
-    public FacultyController(FacultyService facultyService, StudentService studentService) {
+    public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
-        this.studentService = studentService;
     }
 
     @GetMapping

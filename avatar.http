@@ -1,0 +1,11 @@
+###
+// Upload avatar.
+POST http://localhost:8080/avatar?studentID=2
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="weasley_ron"; filename="weasley_ron.jpg"
+Content-Type: image/jpeg
+
+< src/avatars/weasley_ron.jpg
+--WebAppBoundary
