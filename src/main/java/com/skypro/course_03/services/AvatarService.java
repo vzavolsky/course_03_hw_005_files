@@ -2,10 +2,13 @@ package com.skypro.course_03.services;
 
 import com.skypro.course_03.entity.Avatar;
 import com.skypro.course_03.entity.Student;
+import com.skypro.course_03.exceptions.AvatarNotFoundException;
 import com.skypro.course_03.exceptions.AvatarProcessingException;
 import com.skypro.course_03.exceptions.StudentNotFoundException;
 import com.skypro.course_03.repositories.AvatarRepository;
+import com.skypro.course_03.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,14 +27,14 @@ public class AvatarService {
     private String avatarDir;
 
     private final AvatarRepository avatarRepository;
-    private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
     public AvatarService(AvatarRepository avatarRepository,
-                         StudentService studentService,
-                         @Value("${students.avatar.dir.path}") String avatarDir) {
+                         @Value("${students.avatar.dir.path}") String avatarDir,
+                         StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
-        this.studentService = studentService;
         this.avatarDir = avatarDir;
+        this.studentRepository = studentRepository;
     }
 
     public Optional<Avatar> findById(Long id) {
@@ -40,7 +43,7 @@ public class AvatarService {
 
     public void uploadAvatar(Long studentId, MultipartFile multipartFile) {
         try {
-            Student student = studentService.getById(studentId)
+            Student student = studentRepository.findById(studentId)
                     .orElseThrow(StudentNotFoundException::new);
             String fileName = String.format(
                     "%d.%s",
@@ -62,5 +65,22 @@ public class AvatarService {
         } catch (IOException e) {
             throw new AvatarProcessingException();
         }
+    }
+
+    public Pair<byte[], String> getFromFs(Long studentId) {
+        try {
+            Avatar avatar = avatarRepository.findByStudent_Id(studentId)
+                    .orElseThrow(AvatarNotFoundException::new);
+            Path path = Paths.get(avatar.getFilePath());
+            return Pair.of(Files.readAllBytes(path), avatar.getMediaType());
+        } catch (IOException e) {
+            throw new AvatarProcessingException();
+        }
+    }
+
+    public Pair<byte[], String> getFromDb(Long studentId) {
+        Avatar avatar = avatarRepository.findByStudent_Id(studentId)
+                .orElseThrow(AvatarNotFoundException::new);
+        return Pair.of(avatar.getData(), avatar.getMediaType());
     }
 }

@@ -7,5 +7,13 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 Content-Disposition: form-data; name="weasley_ron"; filename="weasley_ron.jpg"
 Content-Type: image/jpeg
 
-< src/avatars/weasley_ron.jpg
+< ./uploads/weasley_ron.jpg
 --WebAppBoundary
+
+###
+// Get avatar from DB.
+GET http://localhost:8080/avatar/db?studentId=2
+
+###
+// Get avatar from file system.
+GET http://localhost:8080/avatar/fs?studentId=2

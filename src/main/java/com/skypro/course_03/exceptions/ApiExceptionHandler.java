@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(value = AvatarProcessingException.class)
+    @ExceptionHandler(value = {AvatarProcessingException.class})
     public ResponseEntity<?> handleAvatarNotFoundException() {
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler(value = StudentNotFoundException.class)
-    public ResponseEntity<?> handleStudentNotFoundException() {
+    @ExceptionHandler(value = {StudentNotFoundException.class, AvatarNotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException() {
         return ResponseEntity.notFound().build();
     }
 }
